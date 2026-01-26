@@ -3,6 +3,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from .models import User, Task, Tag, Event
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Create your views here.
 
@@ -34,60 +37,37 @@ def logout_view(request):
     # Redirect to a success page.
 
 # path('tasks/', views.task_list, name='task-list'),
+@csrf_exempt
 def task_list(request):
-    tasks = Task.objects.all()
-    context = {
-        'tasks': tasks,
-        'title': 'Задачи',
-        'message': 'Здесь Задачи'
-    }
-    return render(request, "task-list.html", context)
+    username = json.loads(request.body)
+    print(username)
+    # tasks = request.POST[username]
+    
+    return JsonResponse({"status": "success"})
+
+# path('tasks/task/', views.task, name='task'),
 
 # path('tags/', views.tag_list, name='tag-list'),
-def tag_list(request):
-    tags = Tag.objects.all()
-    context = {
-        'tags': tags,
-        'title': 'Тэги',
-        'message': 'Здесь Тэги'
-    }
-    return render(request, "tag-list.html", context)
-
 # path('events/', views.event_list, name='event-list'),
-def event_list(request):
-    events = Event.objects.all()
-    context = {
-        'events': events,
-        'title': 'События',
-        'message': 'Здесь События'
-    }
-    return render(request, "event-list.html", context)
-
 # path('calendar/', views.calendar, name='calendar'),
-def calendar(request):
-    context = {
-        'title': 'Каллендарь',
-        'message': 'Это Календарь',
-    }
-    return render(request, 'calendar.html', context)
 
-# # path("/add/", TaskCreateView.as_view(), name="task-add"),
-# class TaskCreateView(CreateView):
-#     template_name = "Task-form.html"
-#     model = Task
-#     fields = "__all__"
-#     success_url = reverse_lazy("Tasks-list")
+# path('tasks/addTask/', TaskCreateView.as_view(), name='task-add'),
+class TaskCreateView(CreateView):
+    template_name = "Task-form.html"
+    model = Task
+    fields = "__all__"
+    success_url = reverse_lazy("Tasks-list")
 
-#     def get_context_data(self, **kwargs):
-#         # Call the base implementation first to get a context
-#         context = super().get_context_data(**kwargs)
-#         # Add in a QuerySet of all the books
-#         context["title"] = "Создание товара"
-#         context["message"] = "Создайте товар"
-#         context["button"] = "Добавить"
-#         return context
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context["title"] = "Создание задачи"
+        context["message"] = "Создайте задачу"
+        context["button"] = "Добавить"
+        return context
 
-# # path("tasks/task/<int:pk>/", TaskUpdateView.as_view(), name="task-update"),
+# # path('tasks/<int:pk>/updateTask/', TaskUpdateView.as_view(), name='task-update'),
 # class TaskUpdateView(UpdateView):
 #     template_name = "Task-form.html"
 #     model = Task
@@ -103,7 +83,7 @@ def calendar(request):
 #         context["button"] = "Подтвердить"
 #         return context
 
-# # path("tasks/task/<int:pk>/delete/", TaskDeleteView.as_view(), name="task-delete"),
+# # path('tasks/<int:pk>/deleteTask/', TaskDeleteView.as_view(), name='task-delete'),
 # class TaskDeleteView(DeleteView):
 #     template_name = "Task-delete.html"
 #     model = Task

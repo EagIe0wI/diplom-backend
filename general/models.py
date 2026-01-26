@@ -7,14 +7,6 @@ from django.db import models
 class User(models.Model):
     login = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=50, unique=True)
-    tasks = models.ForeignKey(
-        "Task",
-        on_delete=models.PROTECT,
-    )
-    tags = models.ForeignKey(
-        "Tag",
-        on_delete=models.PROTECT,
-    )
 
     def __str__(self):
         return f"{self.login.title()}"
@@ -22,6 +14,10 @@ class User(models.Model):
 # Task (name, description, deadline, repeatable, tags)
 # Задача (Название, Дедлайн, Повторяемость, Описание, Теги)
 class Task(models.Model):
+    user_id = models.ForeignKey(
+        'User',
+        on_delete=models.CASCADE,
+    )
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=225)
     deadline = models.DateField()
@@ -37,6 +33,10 @@ class Task(models.Model):
 # Tag (name, description, deadline, repeatable)
 # Тэг (Название, Описание, Дедлайн, Повторяемость)
 class Tag(models.Model):
+    user_id = models.ForeignKey(
+        'User',
+        on_delete=models.CASCADE,
+    )
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=225)
     deadline = models.DateField()
@@ -48,6 +48,10 @@ class Tag(models.Model):
 # Event (name, description, date)
 # Событие (Название, Описание, Дата)
 class Event(models.Model):
+    user_id = models.ForeignKey(
+        'User',
+        on_delete=models.CASCADE,
+    )
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=225)
     date = models.DateField()
