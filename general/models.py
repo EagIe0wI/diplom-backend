@@ -1,12 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
-# User (username, passwor)
+# CustomUser (username, passwor)
 # Пользователь (Логин, Пароль)
-class User(models.Model):
-    username = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=50, unique=True)
+class CustomUser(AbstractUser):
+    email = models.EmailField(_("email address"), unique=True)
+    password_hash = models.CharField(max_length=15, unique=True)
 
     def __str__(self):
         return f"{self.username.title()}"
@@ -15,7 +17,7 @@ class User(models.Model):
 # Задача (Ссылка на пользователя, Название, Дедлайн, Повторяемость, Описание, Теги)
 class Task(models.Model):
     user_id = models.ForeignKey(
-        'User',
+        'CustomUser',
         on_delete=models.CASCADE,
     )
     name = models.CharField(max_length=50)
@@ -34,7 +36,7 @@ class Task(models.Model):
 # Тэг (Ссылка на пользователя, Название, Описание, Дедлайн, Повторяемость)
 class Tag(models.Model):
     user_id = models.ForeignKey(
-        'User',
+        'CustomUser',
         on_delete=models.CASCADE,
     )
     name = models.CharField(max_length=50)
@@ -49,7 +51,7 @@ class Tag(models.Model):
 # Событие (Ссылка на пользователя, Название, Описание, Дата)
 class Event(models.Model):
     user_id = models.ForeignKey(
-        'User',
+        'CustomUser',
         on_delete=models.CASCADE,
     )
     name = models.CharField(max_length=50)

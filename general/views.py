@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
-from .models import User, Task, Tag, Event
+from .models import CustomUser, Task, Tag, Event
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -23,7 +23,7 @@ def register_view(request):
     data = json.loads(request.body)
     username = data.get('username')
     password = data.get('password')
-    user = User.objects.create_user(username=username, password=password)
+    user = CustomUser.objects.create_user(username=username, password=password)
     user.save()
     redirect(task_list)
     return JsonResponse({"status": "success login"})

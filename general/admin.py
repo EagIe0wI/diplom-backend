@@ -1,9 +1,19 @@
 from django.contrib import admin
-from .models import User, Task, Tag, Event, ExtraTaskField, TypeField
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
+from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .models import CustomUser, Task, Tag, Event, ExtraTaskField, TypeField
 
 # Register your models here.
 
-admin.site.register(User)
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    model = CustomUser
+    list_display = ['email', 'username',]
+
+admin.site.register(CustomUser, CustomUserAdmin)
+
 admin.site.register(Task)
 admin.site.register(Tag)
 admin.site.register(Event)
