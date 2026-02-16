@@ -17,18 +17,32 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+# path('register/', views.register_view, name='register'),
+@csrf_exempt
+def register_view(request):
+    data = json.loads(request.body)
+    username = data.get('username')
+    password = data.get('password')
+    user = User.objects.create_user(username=username, password=password)
+    user.save()
+    redirect(task_list)
+    return JsonResponse({"status": "success login"})
+
 # path("login/", auth_views.LoginView.as_view(template_name="login.html"), name="login"),
-def login(request):
-    username = request.POST["username"]
-    password = request.POST["password"]
+@csrf_exempt
+def login_view(request):
+    data = json.loads(request.body)
+    username = data.get('username')
+    password = data.get('password')
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
         # Redirect to a success page.
-        ...
+        redirect(task_list)
+        return JsonResponse({"status": "success login"})
     else:
         # Return an 'invalid login' error message.
-        ...
+        return JsonResponse({"status": "invalid login"})
 
 # path("logout/", views.logout_view, name='logout'),
 def logout_view(request):
@@ -37,13 +51,13 @@ def logout_view(request):
     # Redirect to a success page.
 
 # path('tasks/', views.task_list, name='task-list'),
-@csrf_exempt
 def task_list(request):
     username = json.loads(request.body)
-    print(username)
+    tasks = Task.objects.all(username)
     # tasks = request.POST[username]
+    print(tasks)
     
-    return JsonResponse({"status": "success"})
+    return JsonResponse({"status": "success at task_list"})
 
 # path('tasks/task/', views.task, name='task'),
 
@@ -52,20 +66,24 @@ def task_list(request):
 # path('calendar/', views.calendar, name='calendar'),
 
 # path('tasks/addTask/', TaskCreateView.as_view(), name='task-add'),
-class TaskCreateView(CreateView):
-    template_name = "Task-form.html"
-    model = Task
-    fields = "__all__"
-    success_url = reverse_lazy("Tasks-list")
+# class TaskCreateView(CreateView):
+#     template_name = "task-form.html"
+#     model = Task
+#     fields = "__all__"
+#     success_url = reverse_lazy("task-list")
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context["title"] = "Создание задачи"
-        context["message"] = "Создайте задачу"
-        context["button"] = "Добавить"
-        return context
+def task_add(request):
+    taskData = json.loads(request.body)
+    print(taskData)
+    # tasks = request.POST[username]
+        
+    return JsonResponse({"status": "success", "task data": taskData})
+
+    # def get_context_data(self, **kwargs):
+    #     # Call the base implementation first to get a context
+    #     context = super().get_context_data(**kwargs)
+    #     # Add in a QuerySet of all the books
+    #     return context
 
 # # path('tasks/<int:pk>/updateTask/', TaskUpdateView.as_view(), name='task-update'),
 # class TaskUpdateView(UpdateView):

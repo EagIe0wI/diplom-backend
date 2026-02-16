@@ -2,17 +2,17 @@ from django.db import models
 
 # Create your models here.
 
-# User (login, password, tasks, tags)
-# Пользователь (Логин, Пароль, Задачи, Тэги)
+# User (username, passwor)
+# Пользователь (Логин, Пароль)
 class User(models.Model):
-    login = models.CharField(max_length=50, unique=True)
+    username = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return f"{self.login.title()}"
+        return f"{self.username.title()}"
 
-# Task (name, description, deadline, repeatable, tags)
-# Задача (Название, Дедлайн, Повторяемость, Описание, Теги)
+# Task (user_id, name, description, deadline, repeatable, tags)
+# Задача (Ссылка на пользователя, Название, Дедлайн, Повторяемость, Описание, Теги)
 class Task(models.Model):
     user_id = models.ForeignKey(
         'User',
@@ -30,8 +30,8 @@ class Task(models.Model):
     def __str__(self):
         return f"{self.name.title()}"
 
-# Tag (name, description, deadline, repeatable)
-# Тэг (Название, Описание, Дедлайн, Повторяемость)
+# Tag (user_id, name, description, deadline, repeatable)
+# Тэг (Ссылка на пользователя, Название, Описание, Дедлайн, Повторяемость)
 class Tag(models.Model):
     user_id = models.ForeignKey(
         'User',
@@ -45,8 +45,8 @@ class Tag(models.Model):
     def __str__(self):
         return f"{self.name.title()}"
 
-# Event (name, description, date)
-# Событие (Название, Описание, Дата)
+# Event (user_id, name, description, date)
+# Событие (Ссылка на пользователя, Название, Описание, Дата)
 class Event(models.Model):
     user_id = models.ForeignKey(
         'User',
