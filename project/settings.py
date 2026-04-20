@@ -144,3 +144,6 @@ CSRF_TRUSTED_ORIGINS = [
 
 # вместо встроеного User django будет использовать CustomUser
 AUTH_USER_MODEL = 'general.CustomUser'
+
+# Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

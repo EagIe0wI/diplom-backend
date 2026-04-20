@@ -6,14 +6,7 @@ from .models import CustomUser, Task, Tag, Event, ExtraTaskField, TypeField
 
 # Register your models here.
 
-class CustomUserAdmin(UserAdmin):
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
-    model = CustomUser
-    list_display = ['email', 'username',]
-
-admin.site.register(CustomUser, CustomUserAdmin)
-
+admin.site.register(CustomUser)
 admin.site.register(Task)
 admin.site.register(Tag)
 admin.site.register(Event)
