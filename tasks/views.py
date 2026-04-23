@@ -3,8 +3,6 @@ from django.http import JsonResponse
 import json
 from django.views import View
 
-# Create your views here.
-
 class TaskList(View):
     def get(request):
         username = json.loads(request.body)
@@ -12,4 +10,23 @@ class TaskList(View):
         # tasks = request.POST[username]
         print(tasks)
         
-        return JsonResponse({"status": "success at task_list"})
+        return JsonResponse({"status": "response from task-list"})
+
+class TaskDetail(View):
+    def get(request):
+        return JsonResponse({"status": "response from task-detail"})
+
+class TaskCreate(View):
+    # здесь нужна form
+    def get(request):
+        return JsonResponse({"status": "response from task-create"})
+
+class TaskUpdate(View):
+    # здесь нужна form
+    def get(request):
+        return JsonResponse({"status": "response from task-update"})
+
+class TaskDelete(View):
+    # здесь нужна form
+    def get(request):
+        return JsonResponse({"status": "response from task-delete"})
