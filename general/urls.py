@@ -19,3 +19,4 @@ urlpatterns = [
     # path('events/', views.event_list),
     # path('calendar/', views.calendar),
 ]
+
