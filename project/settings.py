@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders', 
-    'general',
+    'accounts',
+    'tasks',
+    'tags',
+    'events',
 ]
 
 MIDDLEWARE = [
@@ -77,8 +80,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'diplom-backend',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -143,7 +150,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # вместо встроеного User django будет использовать CustomUser
-AUTH_USER_MODEL = 'general.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

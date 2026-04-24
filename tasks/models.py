@@ -1,17 +1,19 @@
 from django.db import models
+from tags.models import Tag
 
 class Task(models.Model):
     user_id = models.ForeignKey(
-        'CustomUser',
+        'accounts.CustomUser',
         on_delete=models.CASCADE,
     )
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=225)
-    deadline = models.DateField()
+    deadline = models.DateField(default=None)
     repeatable = models.CharField(max_length=50)
-    tags = models.ForeignKey(
-        "Tag",
+    tag = models.ForeignKey(
+        'tags.Tag',
         on_delete=models.PROTECT,
+        default=None
     )
 
     def __str__(self):
