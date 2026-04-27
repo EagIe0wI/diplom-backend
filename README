@@ -1,0 +1,12 @@
+- Создание и активации окружения
+python3 -m venv .venv
+source .venv/bin/activate
+
+- Установить зависимости
+pip install -r requirements.txt
+
+- Создание миграций и мигрирование
+python3 manage.py makemigrations && python3 manage.py migrate
+
+- Запуск проекта
+python3 manage.py runserver
