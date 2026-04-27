@@ -1,8 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
-from .models import CustomUser, Task, Tag, Event
-from django.views.generic.edit import CreateView#, DeleteView, UpdateView
+from .models import CustomUser
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json

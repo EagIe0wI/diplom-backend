@@ -1,7 +1,7 @@
 from django.db import models
 
 class Tag(models.Model):
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         'accounts.CustomUser',
         on_delete=models.CASCADE,
     )

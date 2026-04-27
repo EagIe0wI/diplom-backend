@@ -2,13 +2,13 @@ from django.db import models
 from tags.models import Tag
 
 class Task(models.Model):
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         'accounts.CustomUser',
         on_delete=models.CASCADE,
     )
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=225)
-    deadline = models.DateField(default=None)
+    deadline = models.DateField(null=True, blank=True, default=None)
     repeatable = models.CharField(max_length=50)
     tag = models.ForeignKey(
         'tags.Tag',
@@ -20,7 +20,7 @@ class Task(models.Model):
         return f"{self.name.title()}"
 
 class ExtraTaskField(models.Model):
-    task_id = models.ForeignKey(
+    task = models.ForeignKey(
         "Task",
         on_delete=models.CASCADE,
     )
@@ -39,4 +39,4 @@ class TypeField(models.Model):
     displayName = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.name.title()}"
+        return f"{self.displayName.title()}"
