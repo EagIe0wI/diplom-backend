@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views # работает только с функциями (def)
+
 from tasks.views import TaskList, TaskDetail, TaskCreate, TaskUpdate, TaskDelete # работает только с классами 
 
 app_name = 'tasks'

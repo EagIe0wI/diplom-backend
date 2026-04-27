@@ -4,13 +4,12 @@ from django.urls import reverse_lazy
 from .models import CustomUser
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views import View
 import json
-
-# Create your views here.
 
 @csrf_exempt
 class RegisterView(View):
-    def get(request):
+    def get(self, request):
         data = json.loads(request.body)
         username = data.get('username')
         password = data.get('password')
@@ -21,7 +20,7 @@ class RegisterView(View):
 
 @csrf_exempt
 class LoginView(View):
-    def get(request):
+    def get(self, request):
         data = json.loads(request.body)
         username = data.get('username')
         password = data.get('password')
@@ -36,7 +35,12 @@ class LoginView(View):
             return JsonResponse({"status": "invalid login"})
 
 class LogOutView(View):
-    def get(request):
+    def get(self, request):
         logout(request)
         return redirect('index')
+        # Redirect to a success page.
+
+class ProfileView(View):
+    def get(self, request):
+        return JsonResponse({"status": "success profile"})
         # Redirect to a success page.

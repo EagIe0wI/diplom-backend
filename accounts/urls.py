@@ -1,14 +1,14 @@
 from django.urls import path
-# from . import views
-from tasks.views import RegisterView, LoginView, LogOutView
+from . import views
+from accounts.views import RegisterView, LoginView, LogOutView, ProfileView
 
 app_name = 'accounts'
 
 urlpatterns = [
-    path("", RegisterView.as_view(), name='register'),
-    path("login/", LoginView.as_view(), name='login'),
+    path("", views.RegisterView, name='register'),
+    path("login/", views.LoginView, name='login'),
     path("logout/", LogOutView.as_view(), name='logout'),
     # path('login/', views.login_view, name='login'),
     # path('logout/', views.logout_view, name='logout'),
-    path('profile/', views.profile_view, name='profile'),
+    path('profile/', ProfileView.as_view(), name='profile'),
 ]
