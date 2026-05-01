@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -159,3 +160,16 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# JWT-аутентификация
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+# (Опционально) Настройка времени жизни токенов
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}

@@ -16,6 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.urls import path
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +30,8 @@ urlpatterns = [
     path('tasks/', include('tasks.urls', namespace='tasks')),
     path('tags/', include('tags.urls', namespace='tags')),
     path('events/', include('events.urls', namespace='events')),
+    # Получение токена (логин)
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # Обновление токена
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

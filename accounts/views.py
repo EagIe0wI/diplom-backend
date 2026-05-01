@@ -7,6 +7,16 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 import json
 
+# from rest_framework.permissions import IsAuthenticated
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
+
+# class ProtectedView(APIView):
+#     permission_classes = [IsAuthenticated] # Только авторизованные пользователи видят это
+
+#     def get(self, request):
+#         return Response({"message": "Только авторизованные пользователи видят это"})
+
 @csrf_exempt
 class RegisterView(View):
     def get(self, request):
