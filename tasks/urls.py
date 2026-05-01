@@ -1,11 +1,11 @@
 from django.urls import path
-
-from tasks.views import TaskList, TaskDetail, TaskCreate, TaskUpdate, TaskDelete # работает только с классами 
+from . import views
+from tasks.views import TaskList, TaskDetail, TaskCreate, TaskUpdate, TaskDelete
 
 app_name = 'tasks'
 
 urlpatterns = [
-    path("", TaskList.as_view(), name='task-list'),
+    path("", views.TaskList, name='task-list'),
     path('<int:pk>/', TaskDetail.as_view(), name='task-detail'),
     path('create/', TaskCreate.as_view(), name='task-create'),
     path('<int:pk>/update/', TaskUpdate.as_view(), name='task-update'),
