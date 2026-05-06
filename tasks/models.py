@@ -7,12 +7,14 @@ class Task(models.Model):
         on_delete=models.CASCADE,
     )
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length=225)
+    description = models.CharField(max_length=225, null=True, blank=True, default=None)
     deadline = models.DateField(null=True, blank=True, default=None)
-    repeatable = models.CharField(max_length=50)
+    repeatable = models.CharField(max_length=50, null=True, blank=True, default=None)
     tag = models.ForeignKey(
         'tags.Tag',
         on_delete=models.PROTECT,
+        null=True,
+        blank=True,
         default=None
     )
 

@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 import json
-
+from django.utils.decorators import method_decorator
 # from rest_framework.permissions import IsAuthenticated
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
@@ -17,20 +17,22 @@ import json
 #     def get(self, request):
 #         return Response({"message": "Только авторизованные пользователи видят это"})
 
-@csrf_exempt
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(View):
-    def get(self, request):
+    def post(self, request):
         data = json.loads(request.body)
         username = data.get('username')
         password = data.get('password')
         user = CustomUser.objects.create_user(username=username, password=password)
         user.save()
-        redirect(task_list)
-        return JsonResponse({"status": "success registration"})
+        return JsonResponse({
+            "status": "success registration",
+            "user_id": user.pk
+        })
 
-@csrf_exempt
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(View):
-    def get(self, request):
+    def post(self, request):
         data = json.loads(request.body)
         username = data.get('username')
         password = data.get('password')
@@ -38,8 +40,11 @@ class LoginView(View):
         if user is not None:
             login(request, user)
             # Redirect to a success page.
-            redirect(task_list)
-            return JsonResponse({"status": "success login"})
+            
+            return JsonResponse({
+                "status": "success login",
+                "user_id": user.pk
+            })
         else:
             # Return an 'invalid login' error message.
             return JsonResponse({"status": "invalid login"})
@@ -47,10 +52,8 @@ class LoginView(View):
 class LogOutView(View):
     def get(self, request):
         logout(request)
-        return redirect('index')
-        # Redirect to a success page.
+        return JsonResponse({"status": "success logout"})
 
 class ProfileView(View):
     def get(self, request):
         return JsonResponse({"status": "success profile"})
-        # Redirect to a success page.

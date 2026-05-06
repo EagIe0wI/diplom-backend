@@ -1,7 +1,7 @@
-from rest_framework import serializers
+from django import forms
 from .models import Task
 
-class TaskSerializer(serializers.ModelSerializer):
+class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = '__all__'
