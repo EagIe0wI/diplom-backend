@@ -10,7 +10,7 @@ router.register(r'tasks', TaskList)
 
 urlpatterns = [
     path('', include(router.urls)),
-    # path('', views.TaskList, name='task-list'),
+    # path('list/', TaskList.as_view(), name='task-list'),
     path('<int:pk>/', TaskDetail.as_view(), name='task-detail'),
     path('create/', TaskCreate.as_view(), name='task-create'),
     path('<int:pk>/update/', TaskUpdate.as_view(), name='task-update'),

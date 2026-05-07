@@ -1,13 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse_lazy
 from .models import CustomUser
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 import json
 from django.utils.decorators import method_decorator
-# from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
 
@@ -38,9 +36,7 @@ class LoginView(View):
         password = data.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
-            # Redirect to a success page.
-            
+            login(request, user)            
             return JsonResponse({
                 "status": "success login",
                 "user_id": user.pk
@@ -50,10 +46,12 @@ class LoginView(View):
             return JsonResponse({"status": "invalid login"})
 
 class LogOutView(View):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         logout(request)
         return JsonResponse({"status": "success logout"})
 
 class ProfileView(View):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         return JsonResponse({"status": "success profile"})
