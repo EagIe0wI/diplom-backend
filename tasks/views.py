@@ -48,8 +48,6 @@ class TaskDelete(APIView):
     def delete(self, request, pk):
         try:
             task = Task.objects.get(pk=pk, user=request.user)
-            # if task.user != request.user:
-            #     return Response({"error": "No permission to delete"}, status=400)
             task.delete()
             return Response(status=204)
         except Task.DoesNotExist:
