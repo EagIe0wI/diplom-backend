@@ -1,55 +1,40 @@
-from .models import Task
-from django.http import JsonResponse
-import json
-from django.views import View
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView, RetrieveAPIView
+from rest_framework import viewsets
 from .models import Task
 from .serializers import TaskSerializer
-from rest_framework import viewsets
 
-class TaskList(viewsets.ModelViewSet):
+class TaskListView(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-
-class TaskDetail(View):
+    # permission_classes = [IsAuthenticated]
+    # def get_queryset(self):
+    #     return Task.objects.filter(user=self.request.user)
+    
+class TaskDetailView(RetrieveAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
-    def get(self, request):
-        return JsonResponse({"status": "response from task-detail"})
-
-class TaskCreate(APIView):
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
+    
+class TaskCreateView(CreateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
-    def post(self, request):
-        if request.method == "POST":
-            serializer = TaskSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=201)
-            return Response(serializer.errors, status=400)
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
         
-        return JsonResponse({'serialiser': serializer})
-
-class TaskUpdate(APIView):
+class TaskUpdateView(UpdateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
-    def patch(self, request, pk):
-        try:
-            task = Task.objects.get(pk=pk, user=request.user)
-            serializer = TaskSerializer(task, data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            return Response(serializer.errors, status=400)
-        except Task.DoesNotExist:
-            return Response(status=404)
-
-class TaskDelete(APIView):
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
+        
+class TaskDeleteView(DestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
-    def delete(self, request, pk):
-        try:
-            task = Task.objects.get(pk=pk, user=request.user)
-            task.delete()
-            return Response(status=204)
-        except Task.DoesNotExist:
-            return Response(status=404)
-
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
