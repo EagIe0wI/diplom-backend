@@ -1,7 +1,19 @@
 from django.db import models
-from tags.models import Tag
 
 class Task(models.Model):
+    STATUSES = {
+        "todo": "Запланировано",
+        "in_progress": "В процессе",
+        "done": "Выполнено",
+    }
+    repeatables = {
+        "none": "Не повторяется",
+        "every_day": "Каждый день",
+        "every_week": "Каждую неделю",
+        "every_month": "Каждый месяц",
+        "every_year": "Каждый год",
+    }
+
     user = models.ForeignKey(
         'accounts.CustomUser',
         on_delete=models.CASCADE,
@@ -9,7 +21,7 @@ class Task(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=225, null=True, blank=True, default=None)
     deadline = models.DateField(null=True, blank=True, default=None)
-    repeatable = models.CharField(max_length=50, null=True, blank=True, default=None)
+    repeatable = models.CharField(max_length=11, choices=repeatables, default="none")
     tag = models.ForeignKey(
         'tags.Tag',
         on_delete=models.PROTECT,
@@ -17,11 +29,12 @@ class Task(models.Model):
         blank=True,
         default=None
     )
+    status = models.CharField(max_length=11, choices=STATUSES, default="todo")
 
     def __str__(self):
         return f"{self.name.title()}"
 
-class ExtraTaskField(models.Model):
+class ExtraFieldForTask(models.Model):
     task = models.ForeignKey(
         "Task",
         on_delete=models.CASCADE,
