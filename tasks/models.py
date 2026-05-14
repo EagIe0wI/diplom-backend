@@ -22,8 +22,8 @@ class Task(models.Model):
     description = models.CharField(max_length=225, null=True, blank=True, default=None)
     deadline = models.DateField(null=True, blank=True, default=None)
     repeatable = models.CharField(max_length=11, choices=repeatables, default="none")
-    tag = models.ForeignKey(
-        'tags.Tag',
+    category = models.ForeignKey(
+        'categories.Category',
         on_delete=models.PROTECT,
         null=True,
         blank=True,

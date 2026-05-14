@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'accounts',
     'tasks',
-    'tags',
+    'categories',
     'events',
 ]
 

@@ -27,7 +27,7 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls'))
     path('api/accounts/', include('accounts.urls', namespace='accounts')),
     path('api/tasks/', include('tasks.urls', namespace='tasks')),
-    path('api/tags/', include('tags.urls', namespace='tags')),
+    path('api/categories/', include('categories.urls', namespace='categories')),
     path('api/events/', include('events.urls', namespace='events')),
     # Получение токена (логин)
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
