@@ -45,8 +45,9 @@ INSTALLED_APPS = [
     'corsheaders', 
     'rest_framework',
     'accounts',
-    'tasks',
     'categories',
+    'cards',
+    'tasks',
     'events',
 ]
 

@@ -24,11 +24,11 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('accounts/', include('django.contrib.auth.urls'))
     path('api/accounts/', include('accounts.urls', namespace='accounts')),
     path('api/tasks/', include('tasks.urls', namespace='tasks')),
     path('api/categories/', include('categories.urls', namespace='categories')),
     path('api/events/', include('events.urls', namespace='events')),
+    path('api/cards/', include('cards.urls', namespace='cards')),
     # Получение токена (логин)
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     # Обновление токена

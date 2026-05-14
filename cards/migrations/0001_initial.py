@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('cards', '0001_initial'),
+        ('categories', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -24,26 +24,23 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Task',
+            name='Card',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50)),
                 ('description', models.CharField(blank=True, default=None, max_length=225, null=True)),
-                ('deadline', models.DateField(blank=True, default=None, null=True)),
-                ('repeatable', models.CharField(choices=[('none', 'Не повторяется'), ('every_day', 'Каждый день'), ('every_week', 'Каждую неделю'), ('every_month', 'Каждый месяц'), ('every_year', 'Каждый год')], default='none', max_length=11)),
-                ('status', models.CharField(choices=[('todo', 'Запланировано'), ('in_progress', 'В процессе'), ('done', 'Выполнено')], default='todo', max_length=11)),
-                ('card', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cards.card')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('сategory', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='categories.category')),
             ],
         ),
         migrations.CreateModel(
-            name='ExtraFieldForTask',
+            name='ExtraFieldForCard',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('key', models.CharField(max_length=50)),
                 ('value', models.CharField(max_length=225)),
-                ('task', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='tasks.task')),
-                ('typeOfValue', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='tasks.typefield')),
+                ('card', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cards.card')),
+                ('typeOfValue', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='cards.typefield')),
             ],
         ),
     ]
