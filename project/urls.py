@@ -17,10 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.urls import path
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,8 +25,4 @@ urlpatterns = [
     path('api/categories/', include('categories.urls', namespace='categories')),
     path('api/events/', include('events.urls', namespace='events')),
     path('api/cards/', include('cards.urls', namespace='cards')),
-    # Получение токена (логин)
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # Обновление токена
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
