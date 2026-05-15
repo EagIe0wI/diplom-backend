@@ -89,8 +89,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'diplom-backend',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': os.getenv('DB_PASSWORD'),
+        'PASSWORD': os.getenv('DB_NAME'),
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -135,26 +135,6 @@ STATIC_URL = 'static/'
 
 # Обход CORS
 CORS_ORIGIN_ALLOW_ALL = True
-
-ALLOWED_HOSTS = ["*"]
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173"
-]
-
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:5173',
-    'localhost:5173',
-    'localhost:5173',
-    'localhost',
-    'localhost:5173',
-)
-
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
-    "http://127.0.0.1:5173"
-]
 
 # вместо встроеного User django будет использовать CustomUser
 AUTH_USER_MODEL = 'accounts.CustomUser'
