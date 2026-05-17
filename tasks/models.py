@@ -6,13 +6,6 @@ class Task(models.Model):
         "in_progress": "В процессе",
         "done": "Выполнено",
     }
-    repeatables = {
-        "none": "Не повторяется",
-        "every_day": "Каждый день",
-        "every_week": "Каждую неделю",
-        "every_month": "Каждый месяц",
-        "every_year": "Каждый год",
-    }
 
     user = models.ForeignKey(
         'accounts.CustomUser',
@@ -20,13 +13,14 @@ class Task(models.Model):
     )
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=225, null=True, blank=True, default=None)
-    deadline = models.DateField(null=True, blank=True, default=None)
-    repeatable = models.CharField(max_length=11, choices=repeatables, default="none")
     card = models.ForeignKey(
         'cards.Card',
         on_delete=models.CASCADE,
     )
     status = models.CharField(max_length=11, choices=STATUSES, default="todo")
+    start_date = models.DateField(null=True, blank=True)
+    rrule_rule = models.CharField(max_length=255, null=True, blank=True)
+
 
     def __str__(self):
         return f"{self.name.title()}"
