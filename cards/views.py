@@ -7,7 +7,6 @@ from .serializers import CardSerializer
 class CardListView(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
-    # permission_classes = [IsAuthenticated]
 
 class CardDetailView(RetrieveAPIView):
     queryset = Card.objects.all()
@@ -20,8 +19,12 @@ class CardCreateView(CreateAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
     permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         return Card.objects.filter(user=self.request.user)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class CardUpdateView(UpdateAPIView):
     queryset = Card.objects.all()

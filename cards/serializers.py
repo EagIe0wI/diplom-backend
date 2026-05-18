@@ -5,3 +5,6 @@ class CardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
         fields = '__all__'
+        extra_kwargs = {
+            'user': {'read_only': True}
+        }

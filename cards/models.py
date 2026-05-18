@@ -12,11 +12,11 @@ class Card(models.Model):
         blank=True,
         default=None
     )
-    name = models.CharField(max_length=50)
+    title = models.CharField(max_length=50)
     description = models.CharField(max_length=225, null=True, blank=True, default=None)
 
     def __str__(self):
-        return f"{self.name.title()}"
+        return f"{self.title.title()}"
 
 class ExtraFieldForCard(models.Model):
     card = models.ForeignKey(
