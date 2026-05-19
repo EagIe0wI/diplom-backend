@@ -7,7 +7,7 @@ from .serializers import EventSerializer
 class EventListView(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 class EventDetailView(RetrieveAPIView):
     queryset = Event.objects.all()

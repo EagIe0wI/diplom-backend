@@ -1,17 +1,25 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import CreateAPIView, UpdateAPIView, DestroyAPIView, RetrieveAPIView
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from .models import Card
 from .serializers import CardSerializer
 
 class CardListView(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
+    permission_classes = [IsAuthenticated]
+
+    filter_backends = [filters.SearchFilter] 
+    search_fields = ['title'] 
+
+    def get_queryset(self):
+        return Card.objects.filter(user=self.request.user)
 
 class CardDetailView(RetrieveAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
     permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         return Card.objects.filter(user=self.request.user)
 

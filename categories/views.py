@@ -7,7 +7,7 @@ from .serializers import CategorySerializer
 class CategoryListView(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 class CategoryDetailView(RetrieveAPIView):
     queryset = Category.objects.all()
