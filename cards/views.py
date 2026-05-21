@@ -9,12 +9,17 @@ class CardListView(viewsets.ModelViewSet):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
     permission_classes = [IsAuthenticated]
-
-    filter_backends = [filters.SearchFilter] 
-    search_fields = ['title'] 
+    filter_backends = [filters.SearchFilter]
+    filterset_fields = ['category']
+    search_fields = ['title']
 
     def get_queryset(self):
-        return Card.objects.filter(user=self.request.user).annotate(tasks_count=Count('task'))
+        queryset = Card.objects.filter(user=self.request.user).annotate(tasks_count=Count('task'))
+        category_param = self.request.query_params.get('category')
+        if category_param:
+            queryset = queryset.filter(category=category_param)
+        return queryset
+
 
 class CardDetailView(RetrieveAPIView):
     queryset = Card.objects.all()
