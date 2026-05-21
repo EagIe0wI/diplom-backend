@@ -5,7 +5,7 @@ class Card(models.Model):
         'accounts.CustomUser',
         on_delete=models.CASCADE,
     )
-    сategory = models.ForeignKey(
+    category = models.ForeignKey(
         'categories.Category',
         on_delete=models.CASCADE,
         null=True,

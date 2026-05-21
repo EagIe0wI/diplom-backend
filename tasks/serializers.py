@@ -9,8 +9,19 @@ class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = '__all__' 
-        extra_kwargs = {'user': {'read_only': True}}
+        fields = [
+            'id', 
+            'title', 
+            'description', 
+            'status', 
+            'start_date', 
+            'rrule_rule', 
+            'card',
+            'next_occurrences'
+        ]
+        extra_kwargs = {
+            'user': {'read_only': True}
+        }
 
     def get_next_occurrences(self, obj):
         if not obj.rrule_rule or not obj.start_date:

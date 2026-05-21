@@ -7,6 +7,7 @@ class Event(models.Model):
     )
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=225, null=True, blank=True, default=None)
+    date_happened = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.title.title()}"
