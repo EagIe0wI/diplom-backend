@@ -125,16 +125,22 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+TIME_ZONE = 'Europe/Moscow'
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
 
-# Обход CORS
-CORS_ORIGIN_ALLOW_ALL = True
+# Позволяет фронтенду читать ответы при ошибках 401/403
+CORS_ALLOW_CREDENTIALS = True
+
+# Разрешаем фронтенду на localhost (Vite) обращаться к бэку
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
 
 # вместо встроеного User django будет использовать CustomUser
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -151,6 +157,9 @@ REST_FRAMEWORK = {
 
 # (Опционально) Настройка времени жизни токенов
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }

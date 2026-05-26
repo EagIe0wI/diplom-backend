@@ -1,5 +1,8 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import CreateAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from django.utils import timezone
 from rest_framework import viewsets, filters
 from .models import Task
 from .serializers import TaskSerializer
@@ -17,6 +20,17 @@ class TaskListView(viewsets.ModelViewSet):
         if card_id is not None:
             queryset = queryset.filter(card=card_id)
         return queryset
+    
+    @action(detail=False, methods=['get'])
+    def today(self, request):
+        today_date = timezone.localdate() 
+        tasks_for_today = self.get_queryset().filter(
+            user=request.user,
+            start_date=today_date,
+            status='todo'
+        )
+        serializer = self.get_serializer(tasks_for_today, many=True)
+        return Response(serializer.data)
     
 class TaskCreateView(CreateAPIView):
     queryset = Task.objects.all()
