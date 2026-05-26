@@ -1,6 +1,10 @@
 from django.db import models
 
 class Event(models.Model):
+    user = models.ForeignKey(
+        'accounts.CustomUser',
+        on_delete=models.CASCADE,
+    )
     card = models.ForeignKey(
         'cards.Card',
         on_delete=models.CASCADE,

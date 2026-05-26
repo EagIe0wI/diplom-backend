@@ -23,14 +23,49 @@ class TaskListView(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['get'])
     def today(self, request):
-        today_date = timezone.localdate() 
-        tasks_for_today = self.get_queryset().filter(
+        """Возвращает задачи на день, переданный фронтендом"""
+        client_date_str = request.query_params.get('date')
+        
+        if client_date_str:
+            from datetime import datetime
+            client_date = datetime.strptime(client_date_str, '%Y-%m-%d')
+        else:
+            client_date = timezone.now()
+            
+        today_start = client_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        today_end = client_date.replace(hour=23, minute=59, second=59, microsecond=999999)
+        
+        queryset = Task.objects.filter(
             user=request.user,
-            start_date=today_date,
+            start_date__range=(today_start, today_end),
             status='todo'
         )
-        serializer = self.get_serializer(tasks_for_today, many=True)
+        
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'])
+    def overdue(self, request):
+        """Возвращает невыполненные задачи, дедлайн которых уже прошёл относительно локальной даты пользователя"""
+        client_date_str = request.query_params.get('date')
+        
+        if client_date_str:
+            from datetime import datetime
+            client_date = datetime.strptime(client_date_str, '%Y-%m-%d')
+        else:
+            client_date = timezone.now()
+            
+        today_start = client_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        
+        queryset = Task.objects.filter(
+            user=request.user,
+            start_date__lt=today_start,
+            status='todo'
+        )
+        
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
     
 class TaskCreateView(CreateAPIView):
     queryset = Task.objects.all()
