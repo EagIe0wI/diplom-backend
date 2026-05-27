@@ -3,15 +3,17 @@ from .models import Card
 
 class CardSerializer(serializers.ModelSerializer):
     tasks_count = serializers.IntegerField(read_only=True)
+    events_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Card
         fields = [
-            'id', 
-            'title', 
-            'description', 
+            'id',
+            'title',
+            'description',
             'category',
-            'tasks_count'
+            'tasks_count',
+            'events_count'
         ]
         extra_kwargs = {
             'user': {'read_only': True},

@@ -14,7 +14,10 @@ class CardListView(viewsets.ModelViewSet):
     search_fields = ['title']
 
     def get_queryset(self):
-        queryset = Card.objects.filter(user=self.request.user).annotate(tasks_count=Count('task'))
+        queryset = Card.objects.filter(user=self.request.user).annotate(
+            tasks_count=Count('task', distinct=True),
+            events_count=Count('event', distinct=True)
+        )
         category_param = self.request.query_params.get('category')
         if category_param:
             queryset = queryset.filter(category=category_param)
