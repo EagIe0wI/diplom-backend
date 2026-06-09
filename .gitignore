@@ -2,5 +2,4 @@
 .env
 **/**/__pycache__/
 tree.txt
-amvera.yml
 db.sqlite3
