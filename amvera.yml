@@ -1,7 +1,6 @@
 meta:
-  environment: python
+  environment: python:3.12
   toolchain:
     name: pip
-    version: 3.12
 run:
   command: gunicorn project.wsgi:application --bind 0.0.0.0:80
