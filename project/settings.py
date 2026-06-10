@@ -34,7 +34,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'taskmanager-backend-eagie0wi.amvera.io',
+    'taskmanager-back-v2-eagie0wi.amvera.io',
 ]
 
 
