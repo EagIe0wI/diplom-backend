@@ -4,5 +4,11 @@ from .models import Event
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = [
+            'id', 
+            'title', 
+            'description', 
+            'date_happened',
+            'card',
+        ]
         extra_kwargs = {'user': {'read_only': True}}
