@@ -7,5 +7,5 @@ build:
   requirementsPath: requirements.txt
   useCache: true
 run:
-  command: venv/bin/python3 manage.py makemigrations && venv/bin/python3 manage.py migrate && gunicorn project.wsgi:application --bind 0.0.0.0:80
+  command: venv/bin/python3 manage.py migrate && python3 init_admin.py && gunicorn project.wsgi:application --bind 0.0.0.0:80
   containerPort: "80"
