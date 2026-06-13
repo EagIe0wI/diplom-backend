@@ -19,7 +19,7 @@ def create_admin():
 
     if not User.objects.filter(username=username).exists():
         print(f"Создание суперпользователя '{username}'...")
-        User.objects.create_superuser(username=username, email=email, password=password)
+        User.objects.create_superuser(username=username, password=password)
         print("Суперпользователь успешно создан.")
     else:
         print(f"Суперпользователь '{username}' уже существует в базе данных.")
