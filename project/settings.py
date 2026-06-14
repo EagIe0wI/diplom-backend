@@ -32,9 +32,9 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-local-development-key-5432
 DEBUG = os.getenv('DEBUG', 'True').lower() in ['true', '1', 'yes']
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
+    '*.amvera.ru',
     'localhost',
-    'taskmanager-back-v2-eagie0wi.amvera.io',
+    '127.0.0.1',
 ]
 
 
@@ -171,6 +171,13 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://.*\.vercel\.app$",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://taskmanager-client-eight.vercel.app",
+    "https://*.amvera.ru", 
 ]
 
 # вместо встроеного User django будет использовать CustomUser
