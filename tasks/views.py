@@ -23,7 +23,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['get'])
     def today(self, request):
-        """Возвращает задачи на день, переданный фронтендом"""
+        """Возвращает задачи на день, переданный фронтендом, и их счетчик"""
         client_date_str = request.query_params.get('date')
         
         if client_date_str:
@@ -37,16 +37,21 @@ class TaskViewSet(viewsets.ModelViewSet):
         
         queryset = Task.objects.filter(
             user=request.user,
-            start_date__range=(today_start, today_end),
-            status='todo'
+            start_date__range=(today_start, today_end)
         )
         
+        active_count = queryset.exclude(status='done').count()
+        
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        
+        return Response({
+            'count': active_count,
+            'results': serializer.data
+        })
     
     @action(detail=False, methods=['get'])
     def overdue(self, request):
-        """Возвращает невыполненные задачи, дедлайн которых уже прошёл относительно локальной даты пользователя"""
+        """Возвращает невыполненные задачи, дедлайн которых прошёл, и их счетчик"""
         client_date_str = request.query_params.get('date')
         
         if client_date_str:
@@ -64,7 +69,12 @@ class TaskViewSet(viewsets.ModelViewSet):
         )
         
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        
+        return Response({
+            'count': queryset.count(),
+            'results': serializer.data
+        })
+
 
     
 class TaskCreateView(CreateAPIView):
