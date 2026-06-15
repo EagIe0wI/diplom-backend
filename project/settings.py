@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-import dj_database_url
 import os
 from dotenv import load_dotenv
 from datetime import timedelta
@@ -32,6 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-local-development-key-5432
 DEBUG = os.getenv('DEBUG', 'True').lower() in ['true', '1', 'yes']
 
 ALLOWED_HOSTS = [
+    'taskmanager-back-v2-eagie0wi.amvera.io',
     '*.amvera.ru',
     'localhost',
     '127.0.0.1',
@@ -155,7 +155,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Позволяет фронтенду читать ответы при ошибках 401/403
 CORS_ALLOW_CREDENTIALS = True
 
-# Разрешаем фронтенду на localhost (Vite) обращаться к бэку
+# Разрешаем фронтенду обращаться к бэку
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
