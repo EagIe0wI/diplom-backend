@@ -1,3 +1,5 @@
+Дипломный проект, бэкенд на django, в процессе рефакторинга.
+
 - Создание и активации окружения
 python3 -m venv .venv
 source .venv/bin/activate
